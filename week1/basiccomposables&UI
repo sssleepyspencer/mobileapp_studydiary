@@ -1,0 +1,94 @@
+package com.example.helloworld
+
+import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.helloworld.ui.theme.HelloworldTheme
+
+
+class MainActivity : androidx.activity.ComponentActivity() {
+    override fun onCreate(savedInstanceState: android.os.Bundle?) {
+        super.onCreate(savedInstanceState)
+        this.setContent {
+            com.example.helloworld.ui.theme.HelloworldTheme {
+                SimpleUI()
+            }
+        }
+    }
+}
+
+@androidx.compose.runtime.Composable
+fun SimpleUI() {
+    androidx.compose.material3.Surface(modifier = androidx.compose.ui.Modifier.fillMaxSize()) {
+        androidx.compose.foundation.layout.Column(
+            modifier = androidx.compose.ui.Modifier
+                .padding(16.dp)
+                .fillMaxSize(),
+            verticalArrangement = androidx.compose.foundation.layout.Arrangement.Center,
+            horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally
+        ) {
+            // Text
+            Text(
+                text = "Hello, World!",
+                style = MaterialTheme.typography.headlineLarge,
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+            // Button
+            Button(onClick = { }) {
+                Text("Click Me")
+            }
+            // Spacer
+            Spacer(modifier = Modifier.height(16.dp))
+            // TextField
+            TextField(
+                value = "Type here",
+                onValueChange = {},
+                modifier = Modifier.padding(top = 16.dp)
+            )
+            // Spacer
+            Spacer(modifier = Modifier.height(16.dp))
+            // Card
+            Card(
+                modifier = Modifier.padding(16.dp),
+                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+            ) {
+                Text(
+                    text = "This is a card",
+                    modifier = Modifier.padding(16.dp)
+                )
+            }
+        }
+    }
+}
+
+@androidx.compose.runtime.Composable
+fun Greeting(name: String, modifier: androidx.compose.ui.Modifier = androidx.compose.ui.Modifier) {
+    androidx.compose.material3.Text(
+        text = "Hello $name!",
+        modifier = modifier
+    )
+}
+
+@androidx.compose.ui.tooling.preview.Preview(showBackground = true)
+@androidx.compose.runtime.Composable
+fun SimpleUIPreview() {
+    com.example.helloworld.ui.theme.HelloworldTheme {
+        SimpleUI()
+    }
+}
