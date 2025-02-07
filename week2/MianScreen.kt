@@ -78,6 +78,7 @@ fun MainScreen(){
         ) {
             Text("Hello TAMK2025!")
             Text("Welcome to the App!")
+            confirmationDialog("Do you want to do this?")
             Button(onClick = {
                 Toast.makeText(context, "Button Clicked", Toast.LENGTH_SHORT).show()
             }) {
