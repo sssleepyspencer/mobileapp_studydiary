@@ -1,0 +1,151 @@
+package com.example.myapplication
+
+import android.widget.Toast
+import androidx.compose.foundation.checkScrollableContainerConstraints
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Call
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.BottomAppBar
+import androidx.compose.material3.Button
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.ModalNavigationDrawer
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ScaffoldDefaults
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
+import androidx.compose.material3.contentColorFor
+import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.motionEventSpy
+import androidx.compose.ui.layout.ModifierLocalBeyondBoundsLayout
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MainScreen() {
+    val context = LocalContext.current
+    val username = remember { mutableStateOf("") }
+    val password = remember { mutableStateOf("") }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                colors = topAppBarColors(
+                    containerColor = Color.Yellow,
+                    titleContentColor = Color.Black,
+
+                    ),
+                title = {
+                    Text("Main Screen")
+                }
+            )
+        },
+        bottomBar = {
+            BottomAppBar(
+                containerColor = Color.Yellow,
+                content = {
+                    Icon(Icons.Default.Home, contentDescription = "Home")
+                    Text("Home", Modifier.padding(16.dp))
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    Toast.makeText(context, "Make a phone call", Toast.LENGTH_SHORT).show()
+                },
+            ) {
+                Icon(Icons.Default.Call, contentDescription = "Add")
+            }
+        },
+        content = { padding ->
+            Box(
+                contentAlignment = Alignment.TopStart
+            ) {
+                Column(
+                    modifier = Modifier
+                        .padding(padding)
+                        .fillMaxSize()
+                        .padding(16.dp),
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally
+
+                ) {
+                    Text(
+                        text = "Welcome to the App!",
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+                    TextField(
+                        value = username.value,
+                        onValueChange = { username.value = it },
+                        label = { Text("Username") }
+                    )
+                    Spacer(modifier = Modifier.height(10.dp))
+                    TextField(
+                        value = password.value,
+                        onValueChange = { password.value = it },
+                        label = { Text("Password") }
+                    )
+
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(16.dp),
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+
+                    ) {
+                        Button(onClick = {/*login*/ }, modifier = Modifier.weight(1f)) {
+                            Text("Login")
+
+                        }
+
+                        Button(onClick = {/*cancel*/ }, modifier = Modifier.weight(1f)) {
+                            Text("Cancel")
+
+                        }
+                    }
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(18.dp),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        confirmationDialog("Do you want to do this?")
+
+                    }
+                }
+
+            }
+        }
+    )
+}
+
+
+
+
+
+
