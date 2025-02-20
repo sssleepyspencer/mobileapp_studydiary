@@ -1,25 +1,51 @@
 package com.example.myapplication
 
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 
 @Composable
 fun Counter( initalValue: Int = 0) {
-    var count by remember { mutableStateOf(initalValue) }
-    Row() {
-        Button( onClick = {
-            count++
-        }) {
-            Text("Increment", fontSize = 30.sp)
+    var count by rememberSaveable { mutableStateOf(initalValue) }
+    var name by rememberSaveable { mutableStateOf("") }
+
+
+    Column (
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ){
+        Text(text = "Enter your name: ", fontSize = 20.sp)
+        TextField(
+            value = name,
+            onValueChange = { name = it },
+            placeholder = { Text("Enter your name....") }
+        )
+        Row() {
+            Button( onClick = {
+                count++
+            }) {
+                Text("Increment", fontSize = 30.sp)
+            }
+            Text( text = count.toString(), fontSize = 30.sp)
         }
-        Text( text = count.toString(), fontSize = 30.sp)
+
     }
+
 
 }
