@@ -1,6 +1,7 @@
 package com.example.myapplication
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -12,24 +13,174 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ui.theme.MyApplicationTheme
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            MainScreen()
+            AppUi()
+
+        }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("MY ACTIVITY STATE","onDestroy")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("MY ACTIVITY STATE","onPause")
+    }
+    override fun onStop() {
+        super.onStop()
+        Log.d("MY ACTIVITY STATE","onStop")
+    }
+
+    override fun onStart() {
+        super.onStart()
+        Log.d("MY ACTIVITY STATE","onStart")
+    }
+    override fun onResume() {
+        super.onResume()
+        Log.d("MY ACTIVITY STATE","onResume")
+    }
+}
+
+
+@Composable
+fun AppUi() {
+    val navController = rememberNavController()
+
+    // Bottom Navigation page
+    val bottomNavItems = listOf(
+        BottomNavItem("Home", "home", Icons.Default.Home),
+        BottomNavItem("Profile", "profile", Icons.Default.Person),
+        BottomNavItem("Settings", "settings", Icons.Default.Settings)
+    )
+
+    // current route
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    Scaffold(
+        bottomBar = {
+            // Bottom Navigation Bar
+            BottomNavigation {
+                bottomNavItems.forEach { item ->
+                    BottomNavigationItem(
+                        icon = { Icon(imageVector = item.icon, contentDescription = item.title) },
+                        label = { Text(text = item.title) },
+                        selected = currentRoute == item.route,
+                        onClick = {
+                            navController.navigate(item.route) {
+                                // 避免重复创建相同的屏幕
+                                popUpTo(navController.graph.startDestinationId)
+                                launchSingleTop = true
+                            }
+                        }
+                    )
+                }
+            }
+        }
+    ) { innerPadding ->
+        //
+        NavHost(
+            navController = navController,
+            startDestination = "mainScreen", //  MainScreen
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            // MainScreen  AnotherScreen
+            composable("mainScreen") {
+                MainScreen(navController)
+            }
+            composable("anotherScreen/{message}") { backStackEntry ->
+                val message = backStackEntry.arguments?.getString("message")
+                AnotherScreen(navController, message)
+            }
+
+            // Home、Profile  Settings
+            composable("home") { HomeScreen() }
+            composable("profile") { ProfileScreen() }
+            composable("settings") { SettingsScreen() }
         }
     }
 }
+
+// Bottom Navigation
+data class BottomNavItem(
+    val title: String,
+    val route: String,
+    val icon: ImageVector
+)
+
+// Home
+@Composable
+fun HomeScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Home Screen", fontSize = 24.sp)
+    }
+}
+
+// Profile
+@Composable
+fun ProfileScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Profile Screen", fontSize = 24.sp)
+    }
+}
+
+// Settings
+@Composable
+fun SettingsScreen() {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Settings Screen", fontSize = 24.sp)
+    }
+}
+
+
