@@ -1,0 +1,71 @@
+void main() {
+  runApp(
+    MaterialApp(
+      home: Scaffold(
+        body: Container(
+          color: Colors.blue,
+          child: const Align(
+            alignment: Alignment.center,
+            //child: StudentWidge(firstName: "James", lastName: "Bond"),
+            child: StudentInAColumn(),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+class StudentWidge extends StatelessWidget {
+  final String firstName;
+  final String lastName;
+
+  const StudentWidge({
+    super.key,
+    required this.firstName,
+    required this.lastName,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Text(firstName, textDirection: TextDirection.ltr),
+        const SizedBox(width: 4.0),
+        Text(lastName, textDirection: TextDirection.ltr),
+      ],
+    );
+  }
+}
+
+class StudentInARow extends StatelessWidget {
+  const StudentInARow({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Row(
+      children: <Widget>[
+        StudentWidge(firstName: "James", lastName: "Bond"),
+        StudentWidge(firstName: "Ethan", lastName: "Hunt"),
+        StudentWidge(firstName: "Ivy", lastName: "Kang"),
+      ],
+    );
+  }
+}
+
+class StudentInAColumn extends StatelessWidget {
+  const StudentInAColumn({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        StudentWidge(firstName: "James", lastName: "Bond"),
+        StudentWidge(firstName: "Ethan", lastName: "Hunt"),
+        StudentWidge(firstName: "Ivy", lastName: "Kang"),
+      ],
+    );
+  }
+}
