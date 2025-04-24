@@ -1,0 +1,66 @@
+//snackbar
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Snackbar Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: const SnackbarPage(),
+    );
+  }
+}
+
+class SnackbarPage extends StatelessWidget {
+  const SnackbarPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Snackbar Demo')),
+      body: Center(child: SnackbarButton()),
+    );
+  }
+}
+
+class SnackbarButton extends StatelessWidget {
+  const SnackbarButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      onPressed: () {
+        print('Button was clicked'); // Print statement to confirm button click
+
+        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text(
+              'Button was pressed!',
+              style: TextStyle(fontSize: 16),
+            ),
+            backgroundColor: Colors.blue,
+            duration: const Duration(seconds: 3),
+            action: SnackBarAction(
+              label: 'DISMISS',
+              textColor: Colors.white,
+              onPressed: () {
+                print('Snackbar dismiss button was clicked');
+              },
+            ),
+          ),
+        );
+      },
+      child: const Text('Show Snackbar'),
+    );
+  }
+}
