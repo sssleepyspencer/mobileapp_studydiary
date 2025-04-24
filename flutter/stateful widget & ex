@@ -1,0 +1,122 @@
+void main() {
+  //runApp(Align(alignment: Alignment.center, child: CounterWidget()));
+  runApp(const Center(child: WhatIsYourFavoriteVillainState()));
+}
+
+class CounterWidget extends StatefulWidget {
+  CounterWidget({super.key});
+
+  @override
+  State<CounterWidget> createState() => _CounterWidgetState();
+}
+
+class _CounterWidgetState extends State<CounterWidget> {
+  int _counter = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      textDirection: TextDirection.ltr,
+      children: <Widget>[
+        Directionality(
+          textDirection: TextDirection.ltr,
+          child: ElevatedButton(
+            onPressed: () {
+              setState(() {
+                _counter++;
+              });
+            },
+            child: const Icon(Icons.add),
+          ),
+        ),
+        const SizedBox(width: 16),
+        Text('Count: $_counter', textDirection: TextDirection.ltr),
+      ],
+    );
+  }
+}
+
+enum Villain {
+  blofeld("Ernst Stavro Blofeld"),
+  drNo("Dr. No"),
+  goldfinger("Auric Goldfinger"),
+  jaws("Jaws");
+
+  const Villain(this.name);
+  final String name;
+}
+
+class WhatIsYourFavoriteVillainState extends StatefulWidget {
+  const WhatIsYourFavoriteVillainState({super.key});
+
+  @override
+  State<WhatIsYourFavoriteVillainState> createState() =>
+      _WhatIsYourFavoriteVillainState();
+}
+
+class _WhatIsYourFavoriteVillainState
+    extends State<WhatIsYourFavoriteVillainState> {
+  Villain villain = Villain.blofeld;
+
+  void _nextVillain() {
+    setState(() {
+      final nextIndex = (villain.index + 1) % Villain.values.length;
+      villain = Villain.values[nextIndex];
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      textDirection: TextDirection.ltr,
+      children: [
+        SelectVillainButton(onChange: _nextVillain),
+        const SizedBox(width: 16),
+        ShowVillainName(villain: villain),
+      ],
+    );
+  }
+}
+
+class ShowVillainName extends StatelessWidget {
+  final Villain villain;
+
+  const ShowVillainName({super.key, required this.villain});
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(_villainString(), textDirection: TextDirection.ltr);
+  }
+
+  String _villainString() {
+    return villain.name;
+  }
+}
+
+class SelectVillainButton extends StatelessWidget {
+  final Function onChange;
+
+  const SelectVillainButton({super.key, required this.onChange});
+
+  void _handleTap() {
+    onChange();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: _handleTap,
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        margin: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: Colors.blue,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: const Text('Next Villain', textDirection: TextDirection.ltr),
+      ),
+    );
+  }
+}
