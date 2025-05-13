@@ -1,0 +1,33 @@
+
+[
+  {
+    "id": 1,
+    "name": "John Doe",
+    "email": "john.doe@example.com",
+    "phone": "+1-555-123-4567"
+  },
+  {
+    "id": 2,
+    "name": "Jane Smith",
+    "email": "jane.smith@example.com",
+    "phone": "+1-555-987-6543"
+  },
+  {
+    "id": 3,
+    "name": "Robert Johnson",
+    "email": "robert.johnson@example.com",
+    "phone": "+1-555-456-7890"
+  },
+  {
+    "id": 4,
+    "name": "Emily Davis",
+    "email": "emily.davis@example.com",
+    "phone": "+1-555-789-0123"
+  },
+  {
+    "id": 5,
+    "name": "Michael Wilson",
+    "email": "michael.wilson@example.com",
+    "phone": "+1-555-321-6547"
+  }
+]
